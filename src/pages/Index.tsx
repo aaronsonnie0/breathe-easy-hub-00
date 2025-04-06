@@ -18,19 +18,6 @@ import { ArrowUp } from 'lucide-react';
 const Index = () => {
   const [showBackToTop, setShowBackToTop] = useState(false);
 
-  // Smooth scroll to hash on page load
-  useEffect(() => {
-    const hash = window.location.hash;
-    if (hash) {
-      setTimeout(() => {
-        const element = document.querySelector(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 100);
-    }
-  }, []);
-
   // Back to top button visibility control
   useEffect(() => {
     const handleScroll = () => {
@@ -41,39 +28,6 @@ const Index = () => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  // Intersection observer for animations
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-fade-in');
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    
-    const sections = document.querySelectorAll('section > div');
-    sections.forEach((section) => {
-      observer.observe(section);
-    });
-    
-    const featureCards = document.querySelectorAll('.feature-card');
-    featureCards.forEach((card) => {
-      observer.observe(card);
-    });
-    
-    return () => {
-      sections.forEach((section) => {
-        observer.unobserve(section);
-      });
-      featureCards.forEach((card) => {
-        observer.unobserve(card);
-      });
     };
   }, []);
 

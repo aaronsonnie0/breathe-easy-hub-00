@@ -28,19 +28,19 @@ export default {
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
-					light: '#D3E4FD', // Light blue
-					dark: '#0077FF', // Darker blue
+					light: '#F5F5F5', // Light gray
+					dark: '#333333', // Dark gray
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))',
-					light: '#F2FCE2', // Light green
-					dark: '#4CAF50', // Darker green
+					light: '#FAFAFA', // Very light gray
+					dark: '#666666', // Medium gray
 				},
 				tertiary: {
-					light: '#F0F4F8', // Very light blue/gray
-					DEFAULT: '#E0E7FF', // Light lavender
-					dark: '#818CF8', // Medium lavender
+					light: '#F9F9F9', // Almost white
+					DEFAULT: '#F0F0F0', // Light gray
+					dark: '#CCCCCC', // Medium light gray
 				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',

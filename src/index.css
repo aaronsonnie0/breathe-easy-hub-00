@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -15,10 +16,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
     
-    --primary: 210 100% 45%; /* Slightly darker blue */
+    --primary: 0 0% 25%; /* Dark gray for primary */
     --primary-foreground: 210 40% 98%;
     
-    --secondary: 150 80% 45%; /* Slightly darker green */
+    --secondary: 0 0% 80%; /* Soft gray for secondary */
     --secondary-foreground: 222.2 47.4% 11.2%;
     
     --muted: 210 40% 96.1%;
@@ -30,7 +31,7 @@
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     
-    --border: 214.3 31.8% 91.4%;
+    --border: 0 0% 90%; /* Light gray border */
     --input: 214.3 31.8% 91.4%;
     --ring: 222.2 84% 4.9%;
     
@@ -38,33 +39,7 @@
   }
   
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    /* ... keep existing code (dark mode variables) */
   }
 }
 
@@ -92,9 +67,34 @@
   .animation-delay-600 {
     animation-delay: 0.6s;
   }
+  .animation-delay-800 {
+    animation-delay: 0.8s;
+  }
+  .animation-delay-1000 {
+    animation-delay: 1s;
+  }
+  .animation-delay-1200 {
+    animation-delay: 1.2s;
+  }
 }
 
 /* Custom animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.7s ease-out forwards;
+  opacity: 0;
+}
+
 @keyframes float {
   0% {
     transform: translateY(0px);
@@ -153,19 +153,19 @@
 }
 
 .feature-card {
-  @apply bg-white rounded-xl shadow-md p-6 transition-all duration-300 hover:shadow-xl border border-gray-100 hover:border-blue-100 transform hover:-translate-y-1 cursor-pointer;
+  @apply bg-white/90 backdrop-blur-sm rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md border border-gray-100 hover:border-gray-200 transform hover:-translate-y-1 cursor-pointer;
 }
 
 .cta-button-primary {
-  @apply bg-primary hover:bg-primary/80 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center transform hover:-translate-y-0.5;
+  @apply bg-primary hover:bg-primary/90 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center transform hover:-translate-y-0.5;
 }
 
 .cta-button-secondary {
-  @apply bg-secondary hover:bg-secondary/80 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center transform hover:-translate-y-0.5;
+  @apply bg-secondary hover:bg-secondary/90 text-primary font-medium py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center transform hover:-translate-y-0.5;
 }
 
 .form-input {
-  @apply w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-800 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all duration-200;
+  @apply w-full rounded-lg border border-gray-200 px-4 py-3 text-gray-800 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all duration-200;
 }
 
 .form-label {
@@ -184,4 +184,9 @@
 .back-to-top.visible {
   @apply opacity-100;
   visibility: visible;
+}
+
+/* Transparent section styling */
+.transparent-section {
+  @apply bg-white/60 backdrop-blur-sm rounded-xl shadow-sm border border-gray-50;
 }

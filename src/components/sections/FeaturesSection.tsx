@@ -8,7 +8,7 @@ const features = [
     name: 'Asthma Diary',
     description: 'Log your daily symptoms, medication usage, and peak flow readings to track your asthma over time.',
     icon: Calendar,
-    color: 'bg-blue-50 text-blue-600',
+    color: 'bg-gray-50 text-gray-700',
     link: '#diary',
   },
   {
@@ -16,7 +16,7 @@ const features = [
     name: 'Prediction & Triggers',
     description: 'Identify patterns and common triggers that may cause asthma flare-ups in your daily life.',
     icon: CloudCog,
-    color: 'bg-purple-50 text-purple-600',
+    color: 'bg-gray-50 text-gray-700',
     link: '#triggers',
   },
   {
@@ -24,7 +24,7 @@ const features = [
     name: 'Emergency Access',
     description: 'Quick access to emergency contacts and nearby medical facilities when you need help fast.',
     icon: AlertTriangle,
-    color: 'bg-red-50 text-red-600',
+    color: 'bg-gray-50 text-gray-700',
     link: '#emergency',
   },
   {
@@ -32,7 +32,7 @@ const features = [
     name: 'Score Assessment',
     description: 'Regular assessments to monitor your asthma control level and track improvements.',
     icon: ChartLine,
-    color: 'bg-amber-50 text-amber-600',
+    color: 'bg-gray-50 text-gray-700',
     link: '#score',
   },
   {
@@ -40,7 +40,7 @@ const features = [
     name: 'Lung Visualization',
     description: 'Interactive visualizations to understand what happens in your lungs during asthma episodes.',
     icon: Stethoscope,
-    color: 'bg-green-50 text-green-600',
+    color: 'bg-gray-50 text-gray-700',
     link: '#lungs',
   },
   {
@@ -48,7 +48,7 @@ const features = [
     name: 'Smart Reminders',
     description: 'Never miss a medication dose with customizable reminders for your treatment plan.',
     icon: Bell,
-    color: 'bg-indigo-50 text-indigo-600',
+    color: 'bg-gray-50 text-gray-700',
     link: '#reminders',
   },
   {
@@ -56,7 +56,7 @@ const features = [
     name: 'Asthma Chatbot',
     description: 'Get answers to your questions about asthma management, treatments, and more.',
     icon: MessageSquare,
-    color: 'bg-cyan-50 text-cyan-600',
+    color: 'bg-gray-50 text-gray-700',
     link: '#chatbot',
   },
 ];
@@ -70,11 +70,11 @@ const FeaturesSection = () => {
   };
 
   return (
-    <section id="features" className="py-16 md:py-24 bg-tertiary-light">
+    <section id="features" className="py-16 md:py-24 bg-gray-50/50">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
+        <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
-            Features Designed for <span className="text-primary-dark">Better Breathing</span>
+            Features Designed for <span className="text-primary">Better Breathing</span>
           </h2>
           <p className="text-lg text-gray-600">
             Our comprehensive tools help you manage every aspect of your asthma care journey, from daily tracking to emergency support.
@@ -85,8 +85,14 @@ const FeaturesSection = () => {
           {features.map((feature, index) => (
             <div 
               key={feature.id}
-              className="feature-card group"
-              style={{ animationDelay: `${index * 100}ms` }}
+              className={`feature-card animate-fade-in ${
+                index === 0 ? '' : 
+                index === 1 ? 'animation-delay-200' : 
+                index === 2 ? 'animation-delay-400' :
+                index === 3 ? 'animation-delay-600' :
+                index === 4 ? 'animation-delay-800' :
+                index === 5 ? 'animation-delay-1000' : 'animation-delay-1200'
+              }`}
               onClick={() => handleScrollToSection(feature.link)}
               tabIndex={0}
               role="button"
@@ -100,7 +106,7 @@ const FeaturesSection = () => {
               <div className={`rounded-lg w-12 h-12 flex items-center justify-center mb-4 ${feature.color}`}>
                 <feature.icon className="w-6 h-6" />
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-gray-800 group-hover:text-primary-dark transition-colors">{feature.name}</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-800 group-hover:text-primary transition-colors">{feature.name}</h3>
               <p className="text-gray-600">{feature.description}</p>
             </div>
           ))}
