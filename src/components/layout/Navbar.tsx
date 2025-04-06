@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Menu, X, ChevronDown, AlertTriangle } from 'lucide-react';
 import {
@@ -14,27 +15,28 @@ import {
 
 // Reorganized navigation items
 const mainNavItems = [
-  { name: 'Home', href: '#home' },
-  { name: 'Features', href: '#features' },
-  { name: 'Diary', href: '#diary' },
-  { name: 'Score Assessment', href: '#score' },
+  { name: 'Home', href: '/', isScroll: false },
+  { name: 'Features', href: '#features', isScroll: true },
+  { name: 'Diary', href: '#diary', isScroll: true },
+  { name: 'Triggers', href: '#triggers', isScroll: true },
   { 
     name: 'Emergency', 
-    href: '#emergency',
-    isEmergency: true 
+    href: '/emergency',
+    isEmergency: true,
+    isScroll: false
   },
 ];
 
 const toolsNavItems = [
-  { name: 'Lung Visualization', href: '#lungs' },
-  { name: 'Triggers', href: '#triggers' },
-  { name: 'Reminders', href: '#reminders' },
+  { name: 'Lung Visualization', href: '/lungs', isScroll: false },
+  { name: 'Score Assessment', href: '/score', isScroll: false },
+  { name: 'Reminders', href: '/reminders', isScroll: false },
 ];
 
 const communityNavItems = [
-  { name: 'Chatbot', href: '#chatbot' },
-  { name: 'Testimonials', href: '#testimonials' },
-  { name: 'Newsletter', href: '#newsletter' },
+  { name: 'Chatbot', href: '#chatbot', isScroll: true },
+  { name: 'Testimonials', href: '#testimonials', isScroll: true },
+  { name: 'Newsletter', href: '#newsletter', isScroll: true },
 ];
 
 const Navbar = () => {
@@ -54,6 +56,18 @@ const Navbar = () => {
     };
   }, []);
 
+  // Handle smooth scrolling for anchor links
+  const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isScroll: boolean) => {
+    if (!isScroll) return; // If not a scroll link, use normal navigation
+    
+    e.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
+    }
+  };
+
   return (
     <header 
       className={`fixed w-full z-50 transition-all duration-300 ${
@@ -61,25 +75,41 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
-        <a href="#home" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <span className="text-2xl font-bold text-primary-dark">BreatheEasy</span>
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center space-x-1">
           {mainNavItems.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className={`px-3 py-2 rounded-md transition-colors duration-200 ${
-                item.isEmergency 
-                  ? 'bg-red-100 text-red-600 hover:bg-red-200 font-medium flex items-center' 
-                  : 'text-gray-600 hover:text-primary-dark'
-              }`}
-            >
-              {item.isEmergency && <AlertTriangle className="h-4 w-4 mr-1" />}
-              {item.name}
-            </a>
+            item.isScroll ? (
+              <a
+                key={item.name}
+                href={item.href}
+                className={`px-3 py-2 rounded-md transition-colors duration-200 ${
+                  item.isEmergency 
+                    ? 'bg-red-100 text-red-600 hover:bg-red-200 font-medium flex items-center' 
+                    : 'text-gray-600 hover:text-primary-dark'
+                }`}
+                onClick={(e) => handleNavigation(e, item.href, item.isScroll)}
+              >
+                {item.isEmergency && <AlertTriangle className="h-4 w-4 mr-1" />}
+                {item.name}
+              </a>
+            ) : (
+              <Link
+                key={item.name}
+                to={item.href}
+                className={`px-3 py-2 rounded-md transition-colors duration-200 ${
+                  item.isEmergency 
+                    ? 'bg-red-100 text-red-600 hover:bg-red-200 font-medium flex items-center' 
+                    : 'text-gray-600 hover:text-primary-dark'
+                }`}
+              >
+                {item.isEmergency && <AlertTriangle className="h-4 w-4 mr-1" />}
+                {item.name}
+              </Link>
+            )
           ))}
 
           {/* Tools Dropdown */}
@@ -92,7 +122,7 @@ const Navbar = () => {
               <DropdownMenuGroup>
                 {toolsNavItems.map((item) => (
                   <DropdownMenuItem key={item.name} asChild>
-                    <a href={item.href}>{item.name}</a>
+                    <Link to={item.href}>{item.name}</Link>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuGroup>
@@ -109,7 +139,16 @@ const Navbar = () => {
               <DropdownMenuGroup>
                 {communityNavItems.map((item) => (
                   <DropdownMenuItem key={item.name} asChild>
-                    <a href={item.href}>{item.name}</a>
+                    {item.isScroll ? (
+                      <a 
+                        href={item.href}
+                        onClick={(e) => handleNavigation(e, item.href, item.isScroll)}
+                      >
+                        {item.name}
+                      </a>
+                    ) : (
+                      <Link to={item.href}>{item.name}</Link>
+                    )}
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuGroup>
@@ -137,33 +176,49 @@ const Navbar = () => {
           <nav className="container mx-auto px-4 py-2 flex flex-col">
             {/* Main Navigation Items */}
             {mainNavItems.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className={`py-3 border-b border-gray-100 ${
-                  item.isEmergency 
-                    ? 'text-red-600 font-medium flex items-center' 
-                    : 'text-gray-600'
-                } hover:text-primary-dark`}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.isEmergency && <AlertTriangle className="h-4 w-4 mr-1" />}
-                {item.name}
-              </a>
+              item.isScroll ? (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className={`py-3 border-b border-gray-100 ${
+                    item.isEmergency 
+                      ? 'text-red-600 font-medium flex items-center' 
+                      : 'text-gray-600'
+                  } hover:text-primary-dark`}
+                  onClick={(e) => handleNavigation(e, item.href, item.isScroll)}
+                >
+                  {item.isEmergency && <AlertTriangle className="h-4 w-4 mr-1" />}
+                  {item.name}
+                </a>
+              ) : (
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`py-3 border-b border-gray-100 ${
+                    item.isEmergency 
+                      ? 'text-red-600 font-medium flex items-center' 
+                      : 'text-gray-600'
+                  } hover:text-primary-dark`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.isEmergency && <AlertTriangle className="h-4 w-4 mr-1" />}
+                  {item.name}
+                </Link>
+              )
             ))}
             
             {/* Tools Section */}
             <div className="py-2 border-b border-gray-100">
               <div className="font-medium text-sm text-gray-500 px-1 py-1">Tools</div>
               {toolsNavItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
+                  to={item.href}
                   className="py-2 pl-3 text-gray-600 hover:text-primary-dark block"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
             </div>
             
@@ -171,14 +226,25 @@ const Navbar = () => {
             <div className="py-2">
               <div className="font-medium text-sm text-gray-500 px-1 py-1">Community</div>
               {communityNavItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="py-2 pl-3 text-gray-600 hover:text-primary-dark block"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </a>
+                item.isScroll ? (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    className="py-2 pl-3 text-gray-600 hover:text-primary-dark block"
+                    onClick={(e) => handleNavigation(e, item.href, item.isScroll)}
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <Link
+                    key={item.name}
+                    to={item.href}
+                    className="py-2 pl-3 text-gray-600 hover:text-primary-dark block"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                )
               ))}
             </div>
           </nav>

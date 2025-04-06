@@ -6,14 +6,10 @@ import Footer from '@/components/layout/Footer';
 import HeroSection from '@/components/sections/HeroSection';
 import FeaturesSection from '@/components/sections/FeaturesSection';
 import DiarySection from '@/components/sections/DiarySection';
-import ScoreSection from '@/components/sections/ScoreSection';
-import EmergencySection from '@/components/sections/EmergencySection';
-import LungSection from '@/components/sections/LungSection';
-import RemindersSection from '@/components/sections/RemindersSection';
+import TriggersSection from '@/components/sections/TriggersSection';
 import ChatbotSection from '@/components/sections/ChatbotSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import NewsletterSection from '@/components/sections/NewsletterSection';
-import TriggersSection from '@/components/sections/TriggersSection';
 import ScrollReveal from '@/components/utils/ScrollReveal';
 
 const Index = () => {
@@ -38,23 +34,7 @@ const Index = () => {
         </ScrollReveal>
         
         <ScrollReveal>
-          <ScoreSection />
-        </ScrollReveal>
-        
-        <ScrollReveal>
           <TriggersSection />
-        </ScrollReveal>
-        
-        <ScrollReveal>
-          <EmergencySection />
-        </ScrollReveal>
-        
-        <ScrollReveal>
-          <LungSection />
-        </ScrollReveal>
-        
-        <ScrollReveal>
-          <RemindersSection />
         </ScrollReveal>
         
         <ScrollReveal>
