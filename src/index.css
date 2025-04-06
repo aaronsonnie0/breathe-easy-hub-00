@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -112,7 +111,6 @@
   animation: float 3s ease-in-out infinite;
 }
 
-/* Breathing animation for lung visualization */
 @keyframes breathe {
   0%, 100% {
     transform: scale(1);
@@ -126,7 +124,6 @@
   animation: breathe 5s ease-in-out infinite;
 }
 
-/* Parallax effect classes */
 .parallax-container {
   position: relative;
   overflow: hidden;
@@ -143,7 +140,6 @@
   transition: transform 0.5s ease-out;
 }
 
-/* Custom styling */
 .section-container {
   @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24;
 }
@@ -180,11 +176,12 @@
   @apply bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 inline-flex items-center justify-center shadow-lg transform hover:-translate-y-1;
 }
 
-/* Add back-to-top button styling */
 .back-to-top {
-  @apply fixed bottom-6 right-6 bg-primary text-white rounded-full p-3 shadow-lg cursor-pointer opacity-0 invisible transition-all duration-300 z-50;
+  @apply fixed bottom-6 right-6 bg-primary text-white rounded-full p-3 shadow-lg cursor-pointer opacity-0 transition-all duration-300 z-50;
+  visibility: hidden;
 }
 
 .back-to-top.visible {
-  @apply opacity-100 visible;
+  @apply opacity-100;
+  visibility: visible;
 }
