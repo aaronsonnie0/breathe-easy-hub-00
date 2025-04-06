@@ -82,9 +82,14 @@ const HeroSection = () => {
             <div className="relative animate-float">
               <div className="absolute inset-0 bg-primary rounded-full opacity-10 blur-3xl"></div>
               <img 
-                src="https://images.unsplash.com/photo-1584650589355-e891babc1d85?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80" 
+                src="/assets/inhaler-usage.jpg" 
                 alt="Person using inhaler" 
-                className="rounded-3xl shadow-lg relative z-10"
+                className="rounded-3xl shadow-lg relative z-10 w-full max-w-lg object-cover"
+                onError={(e) => {
+                  // Fallback to a reliable placeholder if the image fails to load
+                  const target = e.target as HTMLImageElement;
+                  target.src = "https://images.unsplash.com/photo-1584650589355-e891babc1d85?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80";
+                }}
               />
               <div className="absolute -bottom-4 -right-4 bg-white p-4 rounded-xl shadow-lg">
                 <div className="flex items-center">

@@ -16,10 +16,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
     
-    --primary: 209 100% 50%;
+    --primary: 210 100% 45%; /* Slightly darker blue */
     --primary-foreground: 210 40% 98%;
     
-    --secondary: 150 100% 50%;
+    --secondary: 150 80% 45%; /* Slightly darker green */
     --secondary-foreground: 222.2 47.4% 11.2%;
     
     --muted: 210 40% 96.1%;
@@ -90,6 +90,9 @@
   .animation-delay-400 {
     animation-delay: 0.4s;
   }
+  .animation-delay-600 {
+    animation-delay: 0.6s;
+  }
 }
 
 /* Custom animations */
@@ -154,19 +157,19 @@
 }
 
 .feature-card {
-  @apply bg-white rounded-xl shadow-md p-6 transition-all duration-300 hover:shadow-lg border border-blue-50 hover:border-blue-100;
+  @apply bg-white rounded-xl shadow-md p-6 transition-all duration-300 hover:shadow-xl border border-gray-100 hover:border-blue-100 transform hover:-translate-y-1 cursor-pointer;
 }
 
 .cta-button-primary {
-  @apply bg-primary hover:bg-blue-600 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center;
+  @apply bg-primary hover:bg-primary/80 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center transform hover:-translate-y-0.5;
 }
 
 .cta-button-secondary {
-  @apply bg-secondary hover:bg-green-600 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center;
+  @apply bg-secondary hover:bg-secondary/80 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 inline-flex items-center justify-center transform hover:-translate-y-0.5;
 }
 
 .form-input {
-  @apply w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-800 focus:border-blue-500 focus:outline-none;
+  @apply w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-800 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-all duration-200;
 }
 
 .form-label {
@@ -174,5 +177,14 @@
 }
 
 .emergency-button {
-  @apply bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 inline-flex items-center justify-center shadow-lg;
+  @apply bg-red-600 hover:bg-red-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition-all duration-300 inline-flex items-center justify-center shadow-lg transform hover:-translate-y-1;
+}
+
+/* Add back-to-top button styling */
+.back-to-top {
+  @apply fixed bottom-6 right-6 bg-primary text-white rounded-full p-3 shadow-lg cursor-pointer opacity-0 invisible transition-all duration-300 z-50;
+}
+
+.back-to-top.visible {
+  @apply opacity-100 visible;
 }
