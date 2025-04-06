@@ -1,14 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Menu, X, AlertTriangle, LogIn } from 'lucide-react';
 
 // Updated navigation items
 const mainNavItems = [
   { name: 'Home', href: '/', isScroll: false },
-  { name: 'Features', href: '#features', isScroll: true },
-  { name: 'Diary', href: '#diary', isScroll: true },
+  { name: 'Features', href: '/#features', isScroll: true },
+  { name: 'Diary', href: '/#diary', isScroll: true },
   { 
     name: 'Emergency', 
     href: '/emergency',
@@ -20,6 +20,7 @@ const mainNavItems = [
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
 
   // Handle scroll effect
   useEffect(() => {
@@ -38,12 +39,16 @@ const Navbar = () => {
   const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, href: string, isScroll: boolean) => {
     if (!isScroll) return; // If not a scroll link, use normal navigation
     
-    e.preventDefault();
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsMenuOpen(false);
+    // If we're already on the home page, scroll to the section
+    if (location.pathname === '/') {
+      e.preventDefault();
+      const element = document.querySelector(href.replace('/', ''));
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        setIsMenuOpen(false);
+      }
     }
+    // If on another page, the link will navigate to homepage with the anchor
   };
 
   return (

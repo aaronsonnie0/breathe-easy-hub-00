@@ -18,7 +18,7 @@ const Reminders = () => {
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4 md:px-6">
           <ScrollReveal>
-            <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 text-center">
+            <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 text-center animate-fade-in">
               Medication Reminders
             </h1>
             <p className="text-lg text-gray-600 mb-8 text-center max-w-3xl mx-auto">
