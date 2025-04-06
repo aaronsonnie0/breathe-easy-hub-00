@@ -1,9 +1,122 @@
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { MessageSquare, Bot, HelpCircle, Star } from 'lucide-react';
+import { MessageSquare, Bot, HelpCircle, Star, Send, Mic, AlertCircle } from 'lucide-react';
+
+// Message type definition
+interface Message {
+  id: string;
+  text: string;
+  sender: 'user' | 'bot';
+  timestamp: Date;
+  isTyping?: boolean;
+}
+
+const initialMessages: Message[] = [
+  {
+    id: '1',
+    text: 'Hello! I\'m your Asthma Assistant. How can I help you today?',
+    sender: 'bot',
+    timestamp: new Date(),
+  }
+];
 
 const ChatbotSection = () => {
+  const [messages, setMessages] = useState<Message[]>(initialMessages);
+  const [inputText, setInputText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Function to scroll to bottom of chat
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // Simulate sending a message to Gemini API
+  const handleSendMessage = async () => {
+    if (!inputText.trim()) return;
+    
+    const userMessage: Message = {
+      id: Date.now().toString(),
+      text: inputText,
+      sender: 'user',
+      timestamp: new Date(),
+    };
+    
+    setMessages(prev => [...prev, userMessage]);
+    setInputText('');
+    setIsLoading(true);
+
+    // Add typing indicator
+    const typingIndicatorId = 'typing-' + Date.now();
+    setMessages(prev => [...prev, {
+      id: typingIndicatorId,
+      text: '',
+      sender: 'bot',
+      timestamp: new Date(),
+      isTyping: true
+    }]);
+
+    // Simulate API call - In a real implementation, this would be a secure backend call
+    setTimeout(() => {
+      // Remove typing indicator
+      setMessages(prev => prev.filter(msg => msg.id !== typingIndicatorId));
+      
+      // Add bot response
+      const botResponse: Message = {
+        id: (Date.now() + 1).toString(),
+        text: getSimulatedResponse(inputText),
+        sender: 'bot',
+        timestamp: new Date(),
+      };
+      
+      setMessages(prev => [...prev, botResponse]);
+      setIsLoading(false);
+    }, 1500);
+  };
+
+  // Simulate responses for demo purposes
+  const getSimulatedResponse = (query: string): string => {
+    const lowercaseQuery = query.toLowerCase();
+    
+    if (lowercaseQuery.includes('trigger') || lowercaseQuery.includes('cause')) {
+      return "Common asthma triggers include allergens (pollen, dust mites, pet dander), irritants (smoke, pollution), respiratory infections, cold air, exercise, stress, and certain medications. Identifying your personal triggers is important for managing your asthma effectively.";
+    } else if (lowercaseQuery.includes('medication') || lowercaseQuery.includes('inhaler')) {
+      return "Asthma medications fall into two main categories: quick-relief (rescue) medications like albuterol that work fast to relieve symptoms, and long-term control medications like inhaled corticosteroids that reduce airway inflammation over time. Always take your medications as prescribed by your doctor.";
+    } else if (lowercaseQuery.includes('emergency') || lowercaseQuery.includes('attack')) {
+      return "If you're experiencing a severe asthma attack (severe shortness of breath, can't speak in full sentences, blue lips or fingernails), use your rescue inhaler immediately and seek emergency medical help. Don't wait to see if symptoms improve on their own.";
+    } else if (lowercaseQuery.includes('exercise') || lowercaseQuery.includes('activity')) {
+      return "Many people with asthma can exercise safely. Using a rescue inhaler 15-20 minutes before exercise can help prevent symptoms. Warm up gradually, avoid cold air if possible, and choose activities with lower asthma risks like swimming or walking. Always have your rescue medication nearby.";
+    } else {
+      return "I'm here to help with asthma management questions. You can ask me about triggers, medications, emergency procedures, lifestyle adjustments, or anything else related to asthma care. What specific information would you like to know?";
+    }
+  };
+
+  // Handle form submission
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    handleSendMessage();
+  };
+
+  // Handle pressing Enter key to send message
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  };
+
+  const handleVoiceInput = () => {
+    // Voice input functionality would be implemented here
+    // This is just a placeholder that displays a message
+    alert("Voice input is not implemented in this demo version");
+  };
+
   return (
     <section id="chatbot" className="py-16 md:py-24 bg-tertiary-light">
       <div className="container mx-auto px-4 md:px-6">
@@ -65,75 +178,70 @@ const ChatbotSection = () => {
                 <div className="w-3 h-3 bg-green-400 rounded-full"></div>
               </div>
               <div className="flex-grow text-center text-sm font-medium text-gray-600">
-                Asthma Assistant
+                Asthma Assistant – Powered by Gemini AI
               </div>
             </div>
             
             <div className="h-96 overflow-y-auto p-4 space-y-4">
-              <div className="flex justify-start">
-                <div className="bg-gray-100 rounded-lg rounded-tl-none p-3 max-w-[80%]">
-                  <p className="text-gray-800">Hello! I'm your Asthma Assistant. How can I help you today?</p>
+              {messages.map((message) => (
+                <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div 
+                    className={`rounded-lg p-3 max-w-[80%] ${
+                      message.sender === 'user' 
+                        ? 'bg-primary-light rounded-tr-none' 
+                        : 'bg-gray-100 rounded-tl-none'
+                    }`}
+                  >
+                    {message.isTyping ? (
+                      <div className="flex space-x-1 items-center px-2">
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                      </div>
+                    ) : (
+                      <p className="text-gray-800">{message.text}</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-              
-              <div className="flex justify-end">
-                <div className="bg-primary-light rounded-lg rounded-tr-none p-3 max-w-[80%]">
-                  <p className="text-gray-800">What should I do if I feel my asthma symptoms getting worse?</p>
-                </div>
-              </div>
-              
-              <div className="flex justify-start">
-                <div className="bg-gray-100 rounded-lg rounded-tl-none p-3 max-w-[80%]">
-                  <p className="text-gray-800">
-                    If your asthma symptoms are worsening, you should:
-                  </p>
-                  <ol className="list-decimal list-inside text-gray-700 mt-2 space-y-1 text-sm">
-                    <li>Use your rescue inhaler as prescribed</li>
-                    <li>Sit upright and try to take slow, steady breaths</li>
-                    <li>Remove yourself from any triggers if possible</li>
-                    <li>If symptoms don't improve within 15-20 minutes or are severe, seek medical help immediately</li>
-                  </ol>
-                  <p className="text-gray-700 mt-2 text-sm">Would you like me to provide more specific guidance?</p>
-                </div>
-              </div>
-              
-              <div className="flex justify-end">
-                <div className="bg-primary-light rounded-lg rounded-tr-none p-3 max-w-[80%]">
-                  <p className="text-gray-800">Yes please. What are the signs that I should go to the emergency room?</p>
-                </div>
-              </div>
-              
-              <div className="flex justify-start">
-                <div className="bg-gray-100 rounded-lg rounded-tl-none p-3 max-w-[80%]">
-                  <p className="text-gray-800">
-                    You should seek emergency care if you experience:
-                  </p>
-                  <ul className="list-disc list-inside text-gray-700 mt-2 space-y-1 text-sm">
-                    <li>Severe shortness of breath where you can't speak in full sentences</li>
-                    <li>No improvement after using your rescue inhaler</li>
-                    <li>Bluish tint to your lips or fingernails</li>
-                    <li>Extreme difficulty breathing, walking or talking</li>
-                    <li>Chest pain or pressure</li>
-                    <li>Confusion or drowsiness</li>
-                  </ul>
-                  <p className="text-gray-700 mt-2 text-sm">These are signs of a severe asthma attack requiring immediate medical attention.</p>
-                </div>
-              </div>
+              ))}
+              <div ref={messagesEndRef} />
             </div>
             
-            <div className="border-t border-gray-100 p-3 flex items-center">
+            <form onSubmit={handleSubmit} className="border-t border-gray-100 p-3 flex items-center">
               <input
+                ref={inputRef}
                 type="text"
                 className="flex-grow bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 mr-2 focus:outline-none focus:ring-2 focus:ring-primary-dark focus:border-transparent"
-                placeholder="Type your question here..."
+                placeholder="Ask me anything about asthma, triggers, medications, or emergency tips..."
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                onKeyPress={handleKeyPress}
+                disabled={isLoading}
               />
-              <Button size="sm" className="bg-primary-dark hover:bg-primary text-white">
-                <MessageSquare className="h-4 w-4" />
+              <Button 
+                type="submit" 
+                size="sm" 
+                className="bg-primary-dark hover:bg-primary text-white mr-1"
+                disabled={isLoading || !inputText.trim()}
+              >
+                <Send className="h-4 w-4" />
               </Button>
-            </div>
+              <Button 
+                type="button" 
+                size="sm" 
+                variant="outline"
+                className="border-gray-200"
+                onClick={handleVoiceInput}
+              >
+                <Mic className="h-4 w-4 text-gray-600" />
+              </Button>
+            </form>
             
-            <div className="text-center mt-3 text-xs text-gray-500">
-              <p>Powered by health information from medical professionals</p>
+            <div className="text-center mt-3 text-xs text-gray-500 flex flex-col items-center">
+              <div className="flex items-center mb-1 text-amber-500">
+                <AlertCircle className="h-3 w-3 mr-1" />
+                <p>This assistant is for educational purposes only and not a substitute for medical advice.</p>
+              </div>
               <div className="flex items-center justify-center mt-1">
                 <Star className="h-3 w-3 text-yellow-400 fill-yellow-400" />
                 <Star className="h-3 w-3 text-yellow-400 fill-yellow-400" />
