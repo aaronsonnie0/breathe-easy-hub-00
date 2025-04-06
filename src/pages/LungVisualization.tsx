@@ -12,11 +12,11 @@ const LungVisualization = () => {
   }, []);
 
   return (
-    <div className="bg-tertiary-light min-h-screen">
+    <div className="bg-tertiary-light min-h-screen animate-fade-in-slow">
       <Navbar />
 
       <main className="pt-24 pb-16">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="container mx-auto px-4 md:px-6 text-center">
           <ScrollReveal>
             <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 text-center animate-fade-in">
               Lung Visualization

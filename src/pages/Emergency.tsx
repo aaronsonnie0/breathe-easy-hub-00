@@ -12,7 +12,7 @@ const Emergency = () => {
   }, []);
 
   return (
-    <div className="bg-tertiary-light min-h-screen">
+    <div className="bg-tertiary-light min-h-screen animate-fade-in-slow">
       <Navbar />
 
       <main className="pt-24 pb-16">
