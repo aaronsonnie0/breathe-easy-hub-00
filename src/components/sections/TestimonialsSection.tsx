@@ -31,7 +31,7 @@ const testimonials = [
     id: 4,
     name: 'David Thompson',
     role: 'Marathon runner with exercise-induced asthma',
-    content: 'The score assessment helped me realize my asthma wasn't as controlled as I thought. After adjusting my management plan, I've been able to improve my running times without breathing issues. Highly recommend!',
+    content: 'The score assessment helped me realize my asthma wasn\'t as controlled as I thought. After adjusting my management plan, I\'ve been able to improve my running times without breathing issues. Highly recommend!',
     avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&h=256&q=80',
     rating: 5,
   },
