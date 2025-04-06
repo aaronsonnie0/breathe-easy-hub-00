@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Calendar, CloudCog, AlertTriangle, ChartLine, Lungs, Bell, MessageSquare } from 'lucide-react';
+import { Calendar, CloudCog, AlertTriangle, ChartLine, Stethoscope, Bell, MessageSquare } from 'lucide-react';
 
 const features = [
   {
@@ -35,7 +35,7 @@ const features = [
     id: 5,
     name: 'Lung Visualization',
     description: 'Interactive visualizations to understand what happens in your lungs during asthma episodes.',
-    icon: Lungs,
+    icon: Stethoscope,
     color: 'bg-green-50 text-green-600',
   },
   {
