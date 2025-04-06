@@ -25,7 +25,7 @@ const steps = [
   {
     id: 4,
     title: 'Track Your Adherence',
-    description: 'Mark reminders as completed to track how well you're following your plan.',
+    description: 'Mark reminders as completed to track how well you\'re following your plan.',
     icon: <Check className="h-8 w-8 text-primary-dark" />,
   },
 ];
