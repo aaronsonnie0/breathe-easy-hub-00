@@ -7,6 +7,7 @@ interface ScrollRevealProps {
   staggerChildren?: boolean;
   threshold?: number;
   rootMargin?: string;
+  delay?: number;
 }
 
 const ScrollReveal: React.FC<ScrollRevealProps> = ({
@@ -15,6 +16,7 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
   staggerChildren = false,
   threshold = 0.1,
   rootMargin = '0px 0px -100px 0px', // Reveal a bit before element enters viewport
+  delay = 0,
 }) => {
   const [isRevealed, setIsRevealed] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -26,7 +28,12 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsRevealed(true);
+          // Add delay if specified
+          if (delay > 0) {
+            setTimeout(() => setIsRevealed(true), delay);
+          } else {
+            setIsRevealed(true);
+          }
           observer.disconnect();
         }
       },
@@ -38,7 +45,7 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [threshold, rootMargin]);
+  }, [threshold, rootMargin, delay]);
 
   const combinedClassNames = `scroll-reveal ${isRevealed ? 'revealed' : ''} ${staggerChildren ? 'stagger-children' : ''} ${className}`;
 

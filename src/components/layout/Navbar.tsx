@@ -2,41 +2,19 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
-import { Menu, X, ChevronDown, AlertTriangle } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-  DropdownMenuGroup,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-} from "@/components/ui/dropdown-menu";
+import { Menu, X, AlertTriangle, LogIn } from 'lucide-react';
 
-// Reorganized navigation items
+// Updated navigation items
 const mainNavItems = [
   { name: 'Home', href: '/', isScroll: false },
   { name: 'Features', href: '#features', isScroll: true },
   { name: 'Diary', href: '#diary', isScroll: true },
-  { name: 'Triggers', href: '#triggers', isScroll: true },
   { 
     name: 'Emergency', 
     href: '/emergency',
     isEmergency: true,
     isScroll: false
   },
-];
-
-const toolsNavItems = [
-  { name: 'Lung Visualization', href: '/lungs', isScroll: false },
-  { name: 'Score Assessment', href: '/score', isScroll: false },
-  { name: 'Reminders', href: '/reminders', isScroll: false },
-];
-
-const communityNavItems = [
-  { name: 'Chatbot', href: '#chatbot', isScroll: true },
-  { name: 'Testimonials', href: '#testimonials', isScroll: true },
-  { name: 'Newsletter', href: '#newsletter', isScroll: true },
 ];
 
 const Navbar = () => {
@@ -111,49 +89,12 @@ const Navbar = () => {
               </Link>
             )
           ))}
-
-          {/* Tools Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger className="px-3 py-2 text-gray-600 hover:text-primary-dark rounded-md transition-colors duration-200 flex items-center">
-              Tools
-              <ChevronDown className="ml-1 h-4 w-4" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuGroup>
-                {toolsNavItems.map((item) => (
-                  <DropdownMenuItem key={item.name} asChild>
-                    <Link to={item.href}>{item.name}</Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
-          {/* Community Dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger className="px-3 py-2 text-gray-600 hover:text-primary-dark rounded-md transition-colors duration-200 flex items-center">
-              Community
-              <ChevronDown className="ml-1 h-4 w-4" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuGroup>
-                {communityNavItems.map((item) => (
-                  <DropdownMenuItem key={item.name} asChild>
-                    {item.isScroll ? (
-                      <a 
-                        href={item.href}
-                        onClick={(e) => handleNavigation(e, item.href, item.isScroll)}
-                      >
-                        {item.name}
-                      </a>
-                    ) : (
-                      <Link to={item.href}>{item.name}</Link>
-                    )}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuGroup>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          
+          {/* Sign Up Button */}
+          <Button variant="outline" size="sm" className="ml-2">
+            <LogIn className="mr-1 h-4 w-4" />
+            Sign Up
+          </Button>
         </nav>
 
         {/* Mobile Navigation Toggle */}
@@ -207,45 +148,10 @@ const Navbar = () => {
               )
             ))}
             
-            {/* Tools Section */}
-            <div className="py-2 border-b border-gray-100">
-              <div className="font-medium text-sm text-gray-500 px-1 py-1">Tools</div>
-              {toolsNavItems.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  className="py-2 pl-3 text-gray-600 hover:text-primary-dark block"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-            
-            {/* Community Section */}
-            <div className="py-2">
-              <div className="font-medium text-sm text-gray-500 px-1 py-1">Community</div>
-              {communityNavItems.map((item) => (
-                item.isScroll ? (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="py-2 pl-3 text-gray-600 hover:text-primary-dark block"
-                    onClick={(e) => handleNavigation(e, item.href, item.isScroll)}
-                  >
-                    {item.name}
-                  </a>
-                ) : (
-                  <Link
-                    key={item.name}
-                    to={item.href}
-                    className="py-2 pl-3 text-gray-600 hover:text-primary-dark block"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                )
-              ))}
+            {/* Sign Up Link for Mobile */}
+            <div className="py-3 flex items-center border-b border-gray-100">
+              <LogIn className="h-4 w-4 mr-2 text-gray-600" />
+              <span className="text-gray-600">Sign Up</span>
             </div>
           </nav>
         </div>

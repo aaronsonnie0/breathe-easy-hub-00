@@ -1,9 +1,17 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { FileText, MessageSquare } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 
 const HeroSection = () => {
+  const scrollToChatbot = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const chatbotSection = document.getElementById('chatbot');
+    if (chatbotSection) {
+      chatbotSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section 
       id="home" 
@@ -21,11 +29,12 @@ const HeroSection = () => {
             Your personal asthma management platform. Track symptoms, monitor triggers, and take control of your respiratory health.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="default" className="cta-button-primary" size="lg">
-              <FileText className="mr-2 h-5 w-5" />
-              Log Symptoms
-            </Button>
-            <Button variant="outline" className="border-gray-300 text-primary hover:bg-gray-100" size="lg">
+            <Button 
+              variant="outline" 
+              className="border-gray-300 text-primary hover:bg-gray-100" 
+              size="lg"
+              onClick={scrollToChatbot}
+            >
               <MessageSquare className="mr-2 h-5 w-5" />
               Chat with Asthma Bot
             </Button>
