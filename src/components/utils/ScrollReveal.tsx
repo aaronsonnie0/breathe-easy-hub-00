@@ -34,7 +34,11 @@ const ScrollReveal: React.FC<ScrollRevealProps> = ({
           } else {
             setIsRevealed(true);
           }
-          observer.disconnect();
+          // Don't disconnect to enable re-animation when element comes back into view
+          // observer.disconnect();
+        } else if (!entry.isIntersecting && entry.boundingClientRect.top > 0) {
+          // Only reset animation when scrolling back up
+          setIsRevealed(false);
         }
       },
       {

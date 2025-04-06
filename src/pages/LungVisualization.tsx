@@ -16,18 +16,20 @@ const LungVisualization = () => {
       <Navbar />
 
       <main className="pt-24 pb-16">
-        <div className="container mx-auto px-4 md:px-6 text-center">
+        <div className="container mx-auto px-4 md:px-6">
           <ScrollReveal>
-            <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 text-center animate-fade-in">
-              Lung Visualization
-            </h1>
-            <p className="text-lg text-gray-600 mb-8 text-center max-w-3xl mx-auto">
-              Interactive 3D visualization to help you understand what happens in your lungs during asthma episodes.
-            </p>
+            <div className="text-center max-w-3xl mx-auto mb-8">
+              <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 animate-fade-in">
+                Lung Visualization
+              </h1>
+              <p className="text-lg text-gray-600 mb-8">
+                Interactive 3D visualization to help you understand what happens in your lungs during asthma episodes.
+              </p>
+            </div>
           </ScrollReveal>
         </div>
         
-        <ScrollReveal>
+        <ScrollReveal threshold={0.1} rootMargin="0px 0px -100px 0px">
           <LungSection />
         </ScrollReveal>
       </main>

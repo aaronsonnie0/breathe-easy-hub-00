@@ -33,6 +33,7 @@ interface LoginFormProps {
 export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, switchToSignUp }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [resetEmailSent, setResetEmailSent] = useState(false);
+  const [resetInProgress, setResetInProgress] = useState(false);
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -54,10 +55,12 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, switchToSignUp 
       console.error('Error during login:', error);
       
       // Handle specific Firebase errors
-      if (error.code === 'auth/invalid-credential') {
+      if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') {
         toast.error('Invalid email or password. Please try again.');
       } else if (error.code === 'auth/user-not-found') {
         toast.error('No account found with this email.');
+      } else if (error.code === 'auth/too-many-requests') {
+        toast.error('Too many failed login attempts. Please try again later or reset your password.');
       } else {
         toast.error('Failed to log in. Please try again.');
       }
@@ -74,13 +77,22 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, switchToSignUp 
       return;
     }
     
+    setResetInProgress(true);
+    
     try {
       await sendPasswordResetEmail(auth, email);
       setResetEmailSent(true);
       toast.success('Password reset email sent!');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error sending password reset:', error);
-      toast.error('Failed to send password reset email. Please try again.');
+      
+      if (error.code === 'auth/user-not-found') {
+        toast.error('No account found with this email.');
+      } else {
+        toast.error('Failed to send password reset email. Please try again.');
+      }
+    } finally {
+      setResetInProgress(false);
     }
   };
 
@@ -121,8 +133,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess, switchToSignUp 
             variant="link" 
             className="p-0 h-auto text-sm" 
             onClick={handleForgotPassword}
+            disabled={resetInProgress}
           >
-            Forgot Password?
+            {resetInProgress ? 'Sending...' : 'Forgot Password?'}
           </Button>
           
           <Button 

@@ -18,16 +18,18 @@ const Emergency = () => {
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4 md:px-6">
           <ScrollReveal>
-            <h1 className="text-3xl md:text-4xl font-bold mb-6 text-gray-800 text-center animate-fade-in">
-              Emergency Assistance
-            </h1>
-            <p className="text-lg text-gray-600 mb-8 text-center max-w-3xl mx-auto">
-              Quick access to emergency contacts and guidance during asthma emergencies.
-            </p>
+            <div className="text-center max-w-3xl mx-auto mb-8">
+              <h1 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800 animate-fade-in">
+                Emergency Assistance
+              </h1>
+              <p className="text-lg text-gray-600 mb-8">
+                Quick access to emergency contacts and guidance during asthma emergencies.
+              </p>
+            </div>
           </ScrollReveal>
         </div>
         
-        <ScrollReveal>
+        <ScrollReveal threshold={0.1} rootMargin="0px 0px -100px 0px">
           <EmergencySection />
         </ScrollReveal>
       </main>

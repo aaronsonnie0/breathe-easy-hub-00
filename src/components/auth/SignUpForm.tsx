@@ -71,6 +71,10 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onSuccess }) => {
       // Handle specific Firebase errors
       if (error.code === 'auth/email-already-in-use') {
         toast.error('This email is already in use. Please use a different email.');
+      } else if (error.code === 'auth/weak-password') {
+        toast.error('Password is too weak. Please use a stronger password.');
+      } else if (error.code === 'auth/invalid-email') {
+        toast.error('Invalid email address. Please check and try again.');
       } else {
         toast.error('Failed to create account. Please try again.');
       }

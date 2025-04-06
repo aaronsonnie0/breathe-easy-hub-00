@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { SignUpForm } from './SignUpForm';
 import { LoginForm } from './LoginForm';
@@ -20,6 +20,11 @@ export const AuthDialog: React.FC<AuthDialogProps> = ({ isOpen, onOpenChange }) 
           <DialogTitle className="text-2xl font-semibold text-center">
             {activeTab === 'sign-up' ? 'Create an Account' : 'Welcome Back'}
           </DialogTitle>
+          <DialogDescription className="text-center text-muted-foreground">
+            {activeTab === 'sign-up' 
+              ? 'Sign up to track your asthma symptoms and get personalized care recommendations.'
+              : 'Log in to access your asthma care dashboard and tracking tools.'}
+          </DialogDescription>
         </DialogHeader>
         
         <Tabs defaultValue="sign-up" value={activeTab} onValueChange={setActiveTab} className="w-full">
