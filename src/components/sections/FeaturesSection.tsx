@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Calendar, CloudCog, AlertTriangle, ChartLine, Stethoscope, Bell, MessageSquare } from 'lucide-react';
+import ScrollReveal from '@/components/utils/ScrollReveal';
 
 const features = [
   {
@@ -72,27 +73,22 @@ const FeaturesSection = () => {
   return (
     <section id="features" className="py-16 md:py-24 bg-gray-50/50">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
-            Features Designed for <span className="text-primary">Better Breathing</span>
-          </h2>
-          <p className="text-lg text-gray-600">
-            Our comprehensive tools help you manage every aspect of your asthma care journey, from daily tracking to emergency support.
-          </p>
-        </div>
+        <ScrollReveal className="max-w-3xl mx-auto mb-16">
+          <div className="text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
+              Features Designed for <span className="text-primary">Better Breathing</span>
+            </h2>
+            <p className="text-lg text-gray-600">
+              Our comprehensive tools help you manage every aspect of your asthma care journey, from daily tracking to emergency support.
+            </p>
+          </div>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
+        <ScrollReveal className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" staggerChildren={true}>
+          {features.map((feature) => (
             <div 
               key={feature.id}
-              className={`feature-card animate-fade-in ${
-                index === 0 ? '' : 
-                index === 1 ? 'animation-delay-200' : 
-                index === 2 ? 'animation-delay-400' :
-                index === 3 ? 'animation-delay-600' :
-                index === 4 ? 'animation-delay-800' :
-                index === 5 ? 'animation-delay-1000' : 'animation-delay-1200'
-              }`}
+              className="feature-card"
               onClick={() => handleScrollToSection(feature.link)}
               tabIndex={0}
               role="button"
@@ -110,7 +106,7 @@ const FeaturesSection = () => {
               <p className="text-gray-600">{feature.description}</p>
             </div>
           ))}
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
