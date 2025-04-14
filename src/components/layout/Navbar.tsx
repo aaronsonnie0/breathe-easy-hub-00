@@ -1,10 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Button } from "@/components/ui/button";
-import { Menu, X, AlertTriangle, LogIn, LogOut, User } from 'lucide-react';
-import AuthDialog from '@/components/auth/AuthDialog';
-import { useAuth } from '@/hooks/useAuth';
+import { Menu, X, AlertTriangle } from 'lucide-react';
 
 // Updated navigation items
 const mainNavItems = [
@@ -22,9 +19,7 @@ const mainNavItems = [
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const location = useLocation();
-  const { user, signOut } = useAuth();
 
   // Handle scroll effect
   useEffect(() => {
@@ -98,22 +93,6 @@ const Navbar = () => {
               </Link>
             )
           ))}
-          
-          {/* Auth Button */}
-          {user ? (
-            <div className="flex items-center space-x-2">
-              <span className="text-sm text-gray-600">Hi, {user.displayName || 'User'}</span>
-              <Button variant="outline" size="sm" onClick={() => signOut()}>
-                <LogOut className="mr-1 h-4 w-4" />
-                Sign Out
-              </Button>
-            </div>
-          ) : (
-            <Button variant="outline" size="sm" onClick={() => setAuthDialogOpen(true)}>
-              <LogIn className="mr-1 h-4 w-4" />
-              Sign Up
-            </Button>
-          )}
         </nav>
 
         {/* Mobile Navigation Toggle */}
@@ -166,40 +145,9 @@ const Navbar = () => {
                 </Link>
               )
             ))}
-            
-            {/* Sign Up/Sign Out Link for Mobile */}
-            {user ? (
-              <button 
-                onClick={() => {
-                  signOut();
-                  setIsMenuOpen(false);
-                }}
-                className="py-3 flex items-center border-b border-gray-100 text-gray-600"
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                <span>Sign Out ({user.displayName || 'User'})</span>
-              </button>
-            ) : (
-              <button 
-                onClick={() => {
-                  setAuthDialogOpen(true);
-                  setIsMenuOpen(false);
-                }}
-                className="py-3 flex items-center border-b border-gray-100 text-gray-600"
-              >
-                <LogIn className="h-4 w-4 mr-2" />
-                <span>Sign Up</span>
-              </button>
-            )}
           </nav>
         </div>
       )}
-
-      {/* Auth Dialog */}
-      <AuthDialog 
-        isOpen={authDialogOpen} 
-        onOpenChange={setAuthDialogOpen}
-      />
     </header>
   );
 };
