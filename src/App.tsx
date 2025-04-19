@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import ScoreAssessment from "./pages/ScoreAssessment";
 import Emergency from "./pages/Emergency";
 import Reminders from "./pages/Reminders";
+import "./lib/firebase"; // Import firebase initialization
 
 const queryClient = new QueryClient();
 
