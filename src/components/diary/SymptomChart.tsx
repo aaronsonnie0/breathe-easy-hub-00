@@ -11,8 +11,9 @@ import {
   ResponsiveContainer
 } from 'recharts';
 import { format } from 'date-fns';
-import { Button } from '@/components/ui/button';
 import { SymptomLog } from '@/types/diary';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 interface Props {
   data: SymptomLog[];
@@ -31,43 +32,78 @@ export default function SymptomChart({ data, timeframe, onTimeframeChange }: Pro
     'Peak Flow': log.peakFlow,
   }));
 
-  return (
-    <div className="w-full space-y-4">
-      <div className="flex justify-between items-center">
-        <h3 className="text-lg font-semibold">Symptom History</h3>
-        <div className="flex gap-2">
-          <Button
-            variant={timeframe === 'weekly' ? 'default' : 'outline'}
-            onClick={() => onTimeframeChange('weekly')}
-          >
-            Weekly
-          </Button>
-          <Button
-            variant={timeframe === 'monthly' ? 'default' : 'outline'}
-            onClick={() => onTimeframeChange('monthly')}
-          >
-            Monthly
-          </Button>
-        </div>
-      </div>
+  const chartColors = {
+    'Night Awakenings': '#8884d8',
+    'Inhaler Use': '#82ca9d',
+    'Stress Level': '#ffc658',
+    'Sleep Hours': '#ff7300',
+    'Activity Impact': '#0088fe',
+    'Peak Flow': '#00C49F',
+  };
 
-      <div className="w-full h-[400px]">
-        <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="Night Awakenings" stroke="#8884d8" />
-            <Line type="monotone" dataKey="Inhaler Use" stroke="#82ca9d" />
-            <Line type="monotone" dataKey="Stress Level" stroke="#ffc658" />
-            <Line type="monotone" dataKey="Sleep Hours" stroke="#ff7300" />
-            <Line type="monotone" dataKey="Activity Impact" stroke="#0088fe" />
-            <Line type="monotone" dataKey="Peak Flow" stroke="#00C49F" />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
+  return (
+    <Card className="w-full mt-8 animate-fade-in">
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle className="text-2xl font-bold">Symptom History</CardTitle>
+        <ToggleGroup
+          type="single"
+          value={timeframe}
+          onValueChange={(value) => value && onTimeframeChange(value as 'weekly' | 'monthly')}
+          className="justify-start"
+        >
+          <ToggleGroupItem value="weekly" aria-label="Weekly view">
+            Weekly
+          </ToggleGroupItem>
+          <ToggleGroupItem value="monthly" aria-label="Monthly view">
+            Monthly
+          </ToggleGroupItem>
+        </ToggleGroup>
+      </CardHeader>
+      <CardContent>
+        <div className="w-full h-[400px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart
+              data={chartData}
+              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <XAxis
+                dataKey="date"
+                stroke="#888888"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis
+                stroke="#888888"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "white",
+                  border: "1px solid #f0f0f0",
+                  borderRadius: "8px",
+                  boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                }}
+              />
+              <Legend />
+              {Object.keys(chartColors).map((key) => (
+                <Line
+                  key={key}
+                  type="monotone"
+                  dataKey={key}
+                  stroke={chartColors[key as keyof typeof chartColors]}
+                  dot={false}
+                  activeDot={{ r: 4 }}
+                  strokeWidth={2}
+                />
+              ))}
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </CardContent>
+    </Card>
   );
 }

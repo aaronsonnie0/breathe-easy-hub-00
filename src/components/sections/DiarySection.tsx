@@ -31,21 +31,21 @@ export default function DiarySection() {
   return (
     <section id="diary" className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          <div>
-            <span className="inline-block bg-primary-light text-primary-dark px-4 py-2 rounded-full text-sm font-medium mb-6">
-              Daily Tracking
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
-              Log Your Symptoms
-            </h2>
-            <p className="text-lg text-gray-600 mb-6">
-              Track your daily symptoms to better understand and manage your asthma.
-            </p>
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
+            Asthma Diary
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Track your daily symptoms and monitor your asthma patterns over time.
+          </p>
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start max-w-7xl mx-auto">
+          <div className="lg:sticky lg:top-24">
             <SymptomLogForm onSuccess={fetchLogs} />
           </div>
-
-          <div className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+          
+          <div className="space-y-6">
             <SymptomChart
               data={logs}
               timeframe={timeframe}

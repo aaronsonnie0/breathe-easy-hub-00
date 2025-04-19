@@ -7,11 +7,9 @@ const COLLECTION_NAME = 'symptomLogs';
 
 export const addSymptomLog = async (log: Omit<SymptomLog, 'id' | 'createdAt'>) => {
   try {
-    // Generate a custom ID based on timestamp to help with uniqueness
     const timestamp = new Date().getTime();
     const customId = `log_${timestamp}`;
     
-    // Use setDoc with a specific document reference instead of addDoc
     const docRef = doc(db, COLLECTION_NAME, customId);
     await setDoc(docRef, {
       ...log,
