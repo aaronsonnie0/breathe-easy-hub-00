@@ -25,6 +25,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { addSymptomLog } from "@/lib/diary";
+import { SymptomLog } from "@/types/diary";
 
 const formSchema = z.object({
   date: z.date({
@@ -58,10 +59,19 @@ export default function SymptomLogForm({ onSuccess }: { onSuccess?: () => void }
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await addSymptomLog({
-        ...values,
+      // Explicitly create a properly typed object with all required fields
+      const symptomData: Omit<SymptomLog, 'id' | 'createdAt'> = {
+        date: values.date,
+        nighttimeAwakenings: values.nighttimeAwakenings,
+        inhalerUse: values.inhalerUse,
+        stressLevel: values.stressLevel,
         triggers: values.triggers.split(',').map(t => t.trim()),
-      });
+        hoursOfSleep: values.hoursOfSleep,
+        activityImpact: values.activityImpact,
+        peakFlow: values.peakFlow,
+      };
+      
+      await addSymptomLog(symptomData);
       
       toast({
         title: "Success!",
