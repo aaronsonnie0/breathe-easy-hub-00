@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, CloudCog, AlertTriangle, ChartLine, Stethoscope, Bell, MessageSquare } from 'lucide-react';
+import { Calendar, CloudCog, AlertTriangle, ChartLine, Bell, MessageSquare } from 'lucide-react';
 import ScrollReveal from '@/components/utils/ScrollReveal';
 
 const features = [
@@ -43,15 +42,6 @@ const features = [
   },
   {
     id: 5,
-    name: 'Lung Visualization',
-    description: 'Interactive visualizations to understand what happens in your lungs during asthma episodes.',
-    icon: Stethoscope,
-    color: 'bg-gray-50 text-gray-700',
-    link: '/lungs',
-    isPage: true,
-  },
-  {
-    id: 6,
     name: 'Smart Reminders',
     description: 'Never miss a medication dose with customizable reminders for your treatment plan.',
     icon: Bell,
@@ -60,7 +50,7 @@ const features = [
     isPage: true,
   },
   {
-    id: 7,
+    id: 6,
     name: 'Asthma Chatbot',
     description: 'Get answers to your questions about asthma management, treatments, and more.',
     icon: MessageSquare,
@@ -75,10 +65,8 @@ const FeaturesSection = () => {
 
   const handleNavigation = (link: string, isPage: boolean) => {
     if (isPage) {
-      // Navigate to a separate page
       navigate(link);
     } else {
-      // Scroll to section on the current page
       const element = document.querySelector(link);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
