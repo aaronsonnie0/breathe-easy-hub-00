@@ -1,17 +1,24 @@
 
 import { db } from './firebase';
-import { collection, addDoc, query, where, orderBy, getDocs, Timestamp } from 'firebase/firestore';
+import { collection, addDoc, query, where, orderBy, getDocs, Timestamp, doc, setDoc } from 'firebase/firestore';
 import { SymptomLog } from '@/types/diary';
 
 const COLLECTION_NAME = 'symptomLogs';
 
 export const addSymptomLog = async (log: Omit<SymptomLog, 'id' | 'createdAt'>) => {
   try {
-    const docRef = await addDoc(collection(db, COLLECTION_NAME), {
+    // Generate a custom ID based on timestamp to help with uniqueness
+    const timestamp = new Date().getTime();
+    const customId = `log_${timestamp}`;
+    
+    // Use setDoc with a specific document reference instead of addDoc
+    const docRef = doc(db, COLLECTION_NAME, customId);
+    await setDoc(docRef, {
       ...log,
       createdAt: Timestamp.now(),
     });
-    return docRef.id;
+    
+    return customId;
   } catch (error) {
     console.error('Error adding symptom log:', error);
     throw error;

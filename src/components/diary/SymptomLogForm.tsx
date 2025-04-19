@@ -31,13 +31,13 @@ const formSchema = z.object({
   date: z.date({
     required_error: "Please select a date",
   }),
-  nighttimeAwakenings: z.number().min(0).max(10),
-  inhalerUse: z.number().min(0),
-  stressLevel: z.number().min(1).max(10),
+  nighttimeAwakenings: z.coerce.number().min(0).max(10),
+  inhalerUse: z.coerce.number().min(0),
+  stressLevel: z.coerce.number().min(1).max(10),
   triggers: z.string(),
-  hoursOfSleep: z.number().min(0).max(24),
-  activityImpact: z.number().min(1).max(10),
-  peakFlow: z.number().min(0),
+  hoursOfSleep: z.coerce.number().min(0).max(24),
+  activityImpact: z.coerce.number().min(1).max(10),
+  peakFlow: z.coerce.number().min(0),
 });
 
 export default function SymptomLogForm({ onSuccess }: { onSuccess?: () => void }) {
@@ -65,7 +65,7 @@ export default function SymptomLogForm({ onSuccess }: { onSuccess?: () => void }
         nighttimeAwakenings: values.nighttimeAwakenings,
         inhalerUse: values.inhalerUse,
         stressLevel: values.stressLevel,
-        triggers: values.triggers.split(',').map(t => t.trim()),
+        triggers: values.triggers.split(',').map(t => t.trim()).filter(Boolean),
         hoursOfSleep: values.hoursOfSleep,
         activityImpact: values.activityImpact,
         peakFlow: values.peakFlow,
@@ -79,8 +79,13 @@ export default function SymptomLogForm({ onSuccess }: { onSuccess?: () => void }
       });
       
       form.reset();
-      onSuccess?.();
+      
+      // Call the onSuccess callback if provided
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (error) {
+      console.error("Error submitting form:", error);
       toast({
         title: "Error",
         description: "Failed to log symptoms. Please try again.",
@@ -117,7 +122,7 @@ export default function SymptomLogForm({ onSuccess }: { onSuccess?: () => void }
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
+                <PopoverContent className="w-auto p-0 pointer-events-auto" align="start">
                   <CalendarComponent
                     mode="single"
                     selected={field.value}
@@ -126,6 +131,7 @@ export default function SymptomLogForm({ onSuccess }: { onSuccess?: () => void }
                       date > new Date()
                     }
                     initialFocus
+                    className="pointer-events-auto"
                   />
                 </PopoverContent>
               </Popover>
@@ -142,7 +148,7 @@ export default function SymptomLogForm({ onSuccess }: { onSuccess?: () => void }
               <FormItem>
                 <FormLabel>Nighttime Awakenings</FormLabel>
                 <FormControl>
-                  <Input type="number" {...field} onChange={e => field.onChange(+e.target.value)} />
+                  <Input type="number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -156,7 +162,7 @@ export default function SymptomLogForm({ onSuccess }: { onSuccess?: () => void }
               <FormItem>
                 <FormLabel>Inhaler Use (times)</FormLabel>
                 <FormControl>
-                  <Input type="number" {...field} onChange={e => field.onChange(+e.target.value)} />
+                  <Input type="number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -170,7 +176,7 @@ export default function SymptomLogForm({ onSuccess }: { onSuccess?: () => void }
               <FormItem>
                 <FormLabel>Stress Level (1-10)</FormLabel>
                 <FormControl>
-                  <Input type="number" {...field} onChange={e => field.onChange(+e.target.value)} />
+                  <Input type="number" min={1} max={10} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -198,7 +204,7 @@ export default function SymptomLogForm({ onSuccess }: { onSuccess?: () => void }
               <FormItem>
                 <FormLabel>Hours of Sleep</FormLabel>
                 <FormControl>
-                  <Input type="number" {...field} onChange={e => field.onChange(+e.target.value)} />
+                  <Input type="number" min={0} max={24} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -212,7 +218,7 @@ export default function SymptomLogForm({ onSuccess }: { onSuccess?: () => void }
               <FormItem>
                 <FormLabel>Activity Impact (1-10)</FormLabel>
                 <FormControl>
-                  <Input type="number" {...field} onChange={e => field.onChange(+e.target.value)} />
+                  <Input type="number" min={1} max={10} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -226,7 +232,7 @@ export default function SymptomLogForm({ onSuccess }: { onSuccess?: () => void }
               <FormItem>
                 <FormLabel>Peak Flow (L/min)</FormLabel>
                 <FormControl>
-                  <Input type="number" {...field} onChange={e => field.onChange(+e.target.value)} />
+                  <Input type="number" min={0} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
