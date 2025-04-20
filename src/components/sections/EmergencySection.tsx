@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { MapPin, AlertTriangle, Ambulance } from 'lucide-react';
+import { MapPin, AlertTriangle, Phone } from 'lucide-react';
 
 const EmergencySection = () => {
   const [locationAllowed, setLocationAllowed] = useState(false);
@@ -45,6 +45,18 @@ const EmergencySection = () => {
             <p className="text-lg text-gray-600 mb-8">
               Quick access to emergency services and resources during severe asthma attacks. Remember that severe breathing difficulties require immediate medical attention.
             </p>
+
+            {/* Call Emergency Services Button */}
+            <div className="mb-6">
+              <Button 
+                onClick={() => window.location.href = 'tel:+919944226180'}
+                className="emergency-button w-full"
+                size="lg"
+              >
+                <Phone className="mr-2" size={20} />
+                Call Emergency Services
+              </Button>
+            </div>
           </div>
           
           <div className="space-y-8">
