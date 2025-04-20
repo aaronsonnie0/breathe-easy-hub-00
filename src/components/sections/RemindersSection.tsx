@@ -1,7 +1,8 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { Bell, Calendar, Check, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import ReminderForm from '../reminders/ReminderForm';
+import ReminderAlert from '../reminders/ReminderAlert';
 
 const steps = [
   {
@@ -57,7 +58,25 @@ const integrations = [
   },
 ];
 
+interface ReminderData {
+  description: string;
+  date: string;
+  time: string;
+}
+
 const RemindersSection = () => {
+  const [showAlert, setShowAlert] = useState(false);
+  const [currentReminder, setCurrentReminder] = useState<ReminderData | null>(null);
+
+  const handleSubmitReminder = (data: ReminderData) => {
+    setCurrentReminder(data);
+    setShowAlert(true);
+  };
+
+  const handleDismissAlert = () => {
+    setShowAlert(false);
+  };
+
   return (
     <section id="reminders" className="py-16 md:py-24 bg-tertiary-light">
       <div className="container mx-auto px-4 md:px-6">
@@ -86,17 +105,11 @@ const RemindersSection = () => {
         
         <div className="bg-white rounded-xl shadow-md overflow-hidden">
           <div className="md:flex">
-            <div className="md:w-1/2 p-6 md:p-8 flex flex-col justify-center">
+            <div className="md:w-1/2 p-6 md:p-8">
               <h3 className="text-2xl font-bold mb-4 text-gray-800">
-                Track Your Medication Schedule
+                Set Up Your Reminder
               </h3>
-              <p className="text-gray-600 mb-6">
-                Create a custom reminder schedule that fits your medication regimen. Set reminders for different times of day and receive notifications on your preferred device.
-              </p>
-              <Button className="cta-button-primary w-full sm:w-auto">
-                <Bell className="mr-2 h-5 w-5" />
-                Set Up Reminders
-              </Button>
+              <ReminderForm onSubmit={handleSubmitReminder} />
             </div>
             
             <div className="md:w-1/2 bg-gray-50 p-6 md:p-8">
@@ -129,6 +142,12 @@ const RemindersSection = () => {
             </div>
           </div>
         </div>
+
+        <ReminderAlert
+          isOpen={showAlert}
+          onDismiss={handleDismissAlert}
+          reminder={currentReminder}
+        />
       </div>
     </section>
   );
