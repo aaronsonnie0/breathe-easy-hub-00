@@ -1,32 +1,55 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import SymptomLogForm from '@/components/diary/SymptomLogForm';
 import SymptomChart from '@/components/diary/SymptomChart';
-import { getSymptomLogs } from '@/lib/diary';
-import { SymptomLog } from '@/types/diary';
-import { useToast } from '@/hooks/use-toast';
 
 export default function DiarySection() {
+  const [showChart, setShowChart] = useState(false);
   const [timeframe, setTimeframe] = useState<'weekly' | 'monthly'>('weekly');
-  const [logs, setLogs] = useState<SymptomLog[]>([]);
-  const { toast } = useToast();
+  
+  // Sample data for demonstration
+  const sampleLogs = [
+    {
+      date: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+      nighttimeAwakenings: 2,
+      inhalerUse: 3,
+      stressLevel: 4,
+      hoursOfSleep: 7,
+      activityImpact: 3,
+      peakFlow: 350,
+      triggers: ['dust', 'pollen'],
+      id: 'sample1',
+      createdAt: new Date(),
+    },
+    {
+      date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+      nighttimeAwakenings: 1,
+      inhalerUse: 2,
+      stressLevel: 3,
+      hoursOfSleep: 8,
+      activityImpact: 2,
+      peakFlow: 380,
+      triggers: ['cold weather'],
+      id: 'sample2',
+      createdAt: new Date(),
+    },
+    {
+      date: new Date(),
+      nighttimeAwakenings: 0,
+      inhalerUse: 1,
+      stressLevel: 2,
+      hoursOfSleep: 8,
+      activityImpact: 1,
+      peakFlow: 400,
+      triggers: [],
+      id: 'sample3',
+      createdAt: new Date(),
+    },
+  ];
 
-  const fetchLogs = async () => {
-    try {
-      const data = await getSymptomLogs(timeframe);
-      setLogs(data);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to fetch symptom logs",
-        variant: "destructive",
-      });
-    }
+  const handleFormSuccess = () => {
+    setShowChart(true);
   };
-
-  useEffect(() => {
-    fetchLogs();
-  }, [timeframe]);
 
   return (
     <section id="diary" className="py-16 md:py-24 bg-white">
@@ -42,16 +65,21 @@ export default function DiarySection() {
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start max-w-7xl mx-auto">
           <div className="lg:sticky lg:top-24">
-            <SymptomLogForm onSuccess={fetchLogs} />
+            <SymptomLogForm onSuccess={handleFormSuccess} simulateOnly={true} />
           </div>
           
-          <div className="space-y-6">
-            <SymptomChart
-              data={logs}
-              timeframe={timeframe}
-              onTimeframeChange={setTimeframe}
-            />
-          </div>
+          {showChart && (
+            <div className="space-y-6 animate-fade-in">
+              <div className="text-sm text-muted-foreground text-center mb-4">
+                Sample Symptom History Visualization
+              </div>
+              <SymptomChart
+                data={sampleLogs}
+                timeframe={timeframe}
+                onTimeframeChange={setTimeframe}
+              />
+            </div>
+          )}
         </div>
       </div>
     </section>

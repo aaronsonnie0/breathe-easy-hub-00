@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -40,7 +39,12 @@ const formSchema = z.object({
   peakFlow: z.coerce.number().min(0),
 });
 
-export default function SymptomLogForm({ onSuccess }: { onSuccess?: () => void }) {
+interface SymptomLogFormProps {
+  onSuccess?: () => void;
+  simulateOnly?: boolean;
+}
+
+export default function SymptomLogForm({ onSuccess, simulateOnly = false }: SymptomLogFormProps) {
   const { toast } = useToast();
   
   const form = useForm<z.infer<typeof formSchema>>({
@@ -58,6 +62,20 @@ export default function SymptomLogForm({ onSuccess }: { onSuccess?: () => void }
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (simulateOnly) {
+      toast({
+        title: "Success!",
+        description: "Your symptoms have been logged (demo mode).",
+      });
+      
+      form.reset();
+      
+      if (onSuccess) {
+        onSuccess();
+      }
+      return;
+    }
+
     try {
       const symptomData = {
         date: values.date,
