@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { AlertCircle, CheckCircle, AlertTriangle, Info, Printer } from 'lucide-react';
+import { AlertCircle, CheckCircle, AlertTriangle, Info, Printer, Download, Phone } from 'lucide-react';
+import { generatePDF } from '@/lib/pdf';
+import { scroller } from 'react-scroll';
 import PrintableScore from './PrintableScore';
 
 const questions = [
@@ -207,14 +209,7 @@ const ScoreSection = () => {
                   Remember that this assessment is a tool to help you monitor your asthma control, but it does not replace professional medical advice.
                 </p>
                 
-                <div className="flex justify-center">
-                  <Button 
-                    onClick={resetForm}
-                    variant="outline" 
-                    className="mr-4"
-                  >
-                    Take Assessment Again
-                  </Button>
+                <div className="flex flex-wrap justify-center gap-4 mb-8">
                   <Button 
                     onClick={handlePrint}
                     className="cta-button-primary"
@@ -222,18 +217,103 @@ const ScoreSection = () => {
                     <Printer className="mr-2" size={20} />
                     Print Results
                   </Button>
+
+                  <Button 
+                    onClick={() => generatePDF({
+                      score: calculateScore(),
+                      maxScore: questions.length * 4,
+                      category: result.title,
+                      recommendation: result.message
+                    })}
+                    className="cta-button-primary"
+                  >
+                    <Download className="mr-2" size={20} />
+                    Download Results
+                  </Button>
+
+                  <Button 
+                    onClick={() => scroller.scrollTo('specialist-section', {
+                      duration: 800,
+                      smooth: true,
+                      offset: -100
+                    })}
+                    className="cta-button-primary"
+                  >
+                    <Phone className="mr-2" size={20} />
+                    Consult a Specialist
+                  </Button>
+
+                  <Button 
+                    onClick={resetForm}
+                    variant="outline" 
+                  >
+                    Take Assessment Again
+                  </Button>
                 </div>
 
                 <PrintableScore 
-                  title={result.title}
                   score={calculateScore()}
                   maxScore={questions.length * 4}
-                  message={result.message}
+                  category={result.title}
+                  recommendation={result.message}
                 />
               </div>
             )}
           </div>
         </div>
+
+        {showResult && (
+          <div id="specialist-section" className="max-w-3xl mx-auto mt-16">
+            <div className="bg-white rounded-xl shadow-lg p-6 md:p-8 border border-gray-100">
+              <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
+                Consult a Specialist
+              </h2>
+              
+              <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 text-gray-800">
+                    Contact Numbers
+                  </h3>
+                  <ul className="space-y-2 text-gray-600">
+                    <li className="flex items-center">
+                      <Phone className="mr-2 h-4 w-4" />
+                      +91 422 350 0000
+                    </li>
+                    <li className="flex items-center">
+                      <Phone className="mr-2 h-4 w-4" />
+                      +91 422 450 0000
+                    </li>
+                    <li className="flex items-center">
+                      <Phone className="mr-2 h-4 w-4" />
+                      +91 7970 108 108
+                    </li>
+                  </ul>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold mb-4 text-gray-800">
+                    Address
+                  </h3>
+                  <address className="text-gray-600 not-italic">
+                    395, Sarojini Naidu Rd,<br />
+                    New Siddhapudur, Coimbatore,<br />
+                    Tamil Nadu 641044
+                  </address>
+                </div>
+              </div>
+              
+              <div className="mt-8 text-center">
+                <a 
+                  href="tel:+914223500000"
+                  className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-primary hover:bg-primary/90 rounded-lg transition-colors duration-300"
+                >
+                  <Phone className="mr-2 h-5 w-5" />
+                  Book an Appointment
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
