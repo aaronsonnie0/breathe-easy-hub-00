@@ -126,6 +126,21 @@ const ScoreSection = () => {
   const handlePrint = () => {
     window.print();
   };
+
+  const handleDownloadPDF = () => {
+    const answersArray = questions.map((q) => ({
+      question: q.question,
+      answer: q.options.find(opt => opt.value === answers[q.id])?.text || 'Not answered'
+    }));
+    
+    generatePDF({
+      score: calculateScore(),
+      maxScore: questions.length * 4,
+      category: result.title,
+      recommendation: result.message,
+      answers: answersArray
+    });
+  };
   
   const result = getResultMessage();
   
@@ -219,12 +234,7 @@ const ScoreSection = () => {
                   </Button>
 
                   <Button 
-                    onClick={() => generatePDF({
-                      score: calculateScore(),
-                      maxScore: questions.length * 4,
-                      category: result.title,
-                      recommendation: result.message
-                    })}
+                    onClick={handleDownloadPDF}
                     className="cta-button-primary"
                   >
                     <Download className="mr-2" size={20} />
