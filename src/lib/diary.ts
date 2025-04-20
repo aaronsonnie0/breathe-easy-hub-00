@@ -113,9 +113,10 @@ export const subscribeToSymptomLogs = (
             inhalerUse: data.inhalerUse ?? 0,
             stressLevel: data.stressLevel ?? 0,
             triggers: data.triggers ?? [],
-            symptoms: data.symptoms ?? [],
-            notes: data.notes ?? '',
-            peakFlow: data.peakFlow ?? null
+            hoursOfSleep: data.hoursOfSleep ?? 0,
+            activityImpact: data.activityImpact ?? 1,
+            peakFlow: data.peakFlow ?? 0,
+            notes: data.notes ?? ''
           };
           
           return log;

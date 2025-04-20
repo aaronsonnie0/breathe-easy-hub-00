@@ -11,4 +11,5 @@ export interface SymptomLog {
   peakFlow: number;
   userId?: string;
   createdAt: Date;
+  notes?: string;
 }
