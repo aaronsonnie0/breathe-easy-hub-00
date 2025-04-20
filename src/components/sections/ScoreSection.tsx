@@ -1,7 +1,7 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { AlertCircle, CheckCircle, AlertTriangle, Info } from 'lucide-react';
+import { AlertCircle, CheckCircle, AlertTriangle, Info, Printer } from 'lucide-react';
+import PrintableScore from './PrintableScore';
 
 const questions = [
   {
@@ -86,7 +86,6 @@ const ScoreSection = () => {
     const score = calculateScore();
     const maxScore = questions.length * 4;
     
-    // Only show result if all questions are answered
     if (Object.keys(answers).length < questions.length) {
       return {
         icon: <Info className="w-8 h-8 text-blue-500" />,
@@ -96,7 +95,6 @@ const ScoreSection = () => {
       };
     }
     
-    // Good control (80-100%)
     if (score >= maxScore * 0.8) {
       return {
         icon: <CheckCircle className="w-8 h-8 text-green-500" />,
@@ -106,7 +104,6 @@ const ScoreSection = () => {
       };
     }
     
-    // Moderate control (60-79%)
     if (score >= maxScore * 0.6) {
       return {
         icon: <AlertTriangle className="w-8 h-8 text-amber-500" />,
@@ -116,13 +113,16 @@ const ScoreSection = () => {
       };
     }
     
-    // Poor control (<60%)
     return {
       icon: <AlertCircle className="w-8 h-8 text-red-500" />,
       title: 'Poor Asthma Control',
       message: 'Your asthma appears to be poorly controlled. Please consult with your healthcare provider as soon as possible.',
       colorClass: 'bg-red-50 border-red-200 text-red-800',
     };
+  };
+  
+  const handlePrint = () => {
+    window.print();
   };
   
   const result = getResultMessage();
@@ -215,10 +215,21 @@ const ScoreSection = () => {
                   >
                     Take Assessment Again
                   </Button>
-                  <Button className="cta-button-primary">
+                  <Button 
+                    onClick={handlePrint}
+                    className="cta-button-primary"
+                  >
+                    <Printer className="mr-2" size={20} />
                     Print Results
                   </Button>
                 </div>
+
+                <PrintableScore 
+                  title={result.title}
+                  score={calculateScore()}
+                  maxScore={questions.length * 4}
+                  message={result.message}
+                />
               </div>
             )}
           </div>

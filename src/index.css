@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -229,4 +228,29 @@
 .fade-in-element.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Print styles */
+@media print {
+  /* Hide all elements except the printable section */
+  body > *:not(.print-only) {
+    display: none !important;
+  }
+  
+  /* Show the printable section */
+  .print-only {
+    display: block !important;
+  }
+  
+  /* Remove background colors and shadows */
+  * {
+    background: white !important;
+    box-shadow: none !important;
+    color: black !important;
+  }
+  
+  /* Ensure the content fits on the page */
+  @page {
+    margin: 2cm;
+  }
 }
