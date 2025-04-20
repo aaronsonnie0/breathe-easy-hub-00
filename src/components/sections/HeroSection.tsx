@@ -1,16 +1,11 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { MessageSquare } from 'lucide-react';
+import { AlertTriangle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
-  const scrollToChatbot = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const chatbotSection = document.getElementById('chatbot');
-    if (chatbotSection) {
-      chatbotSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const navigate = useNavigate();
 
   return (
     <section 
@@ -31,12 +26,12 @@ const HeroSection = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               variant="outline" 
-              className="border-gray-300 text-primary hover:bg-gray-100" 
+              className="border-gray-300 text-red-600 hover:bg-gray-100" 
               size="lg"
-              onClick={scrollToChatbot}
+              onClick={() => navigate('/emergency')}
             >
-              <MessageSquare className="mr-2 h-5 w-5" />
-              Chat with Asthma Bot
+              <AlertTriangle className="mr-2 h-5 w-5" />
+              Emergency Access
             </Button>
           </div>
           <div className="mt-8 flex items-center justify-center">

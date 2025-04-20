@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Calendar, CloudCog, AlertTriangle, ChartLine, Bell, MessageSquare } from 'lucide-react';
+import { Calendar, CloudCog, AlertTriangle, ChartLine, Bell } from 'lucide-react';
 import ScrollReveal from '@/components/utils/ScrollReveal';
 
 const features = [
@@ -10,8 +11,7 @@ const features = [
     description: 'Log your daily symptoms, medication usage, and peak flow readings to track your asthma over time.',
     icon: Calendar,
     color: 'bg-gray-50 text-gray-700',
-    link: '#diary',
-    isPage: false,
+    link: '/diary',
   },
   {
     id: 2,
@@ -19,8 +19,7 @@ const features = [
     description: 'Identify patterns and common triggers that may cause asthma flare-ups in your daily life.',
     icon: CloudCog,
     color: 'bg-gray-50 text-gray-700',
-    link: '#triggers',
-    isPage: false,
+    link: '/triggers',
   },
   {
     id: 3,
@@ -29,7 +28,6 @@ const features = [
     icon: AlertTriangle,
     color: 'bg-gray-50 text-gray-700',
     link: '/emergency',
-    isPage: true,
   },
   {
     id: 4,
@@ -38,7 +36,6 @@ const features = [
     icon: ChartLine,
     color: 'bg-gray-50 text-gray-700',
     link: '/score',
-    isPage: true,
   },
   {
     id: 5,
@@ -47,32 +44,11 @@ const features = [
     icon: Bell,
     color: 'bg-gray-50 text-gray-700',
     link: '/reminders',
-    isPage: true,
-  },
-  {
-    id: 6,
-    name: 'Asthma Chatbot',
-    description: 'Get answers to your questions about asthma management, treatments, and more.',
-    icon: MessageSquare,
-    color: 'bg-gray-50 text-gray-700',
-    link: '#chatbot',
-    isPage: false,
   },
 ];
 
 const FeaturesSection = () => {
   const navigate = useNavigate();
-
-  const handleNavigation = (link: string, isPage: boolean) => {
-    if (isPage) {
-      navigate(link);
-    } else {
-      const element = document.querySelector(link);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
 
   return (
     <section id="features" className="py-16 md:py-24 bg-gray-50/50">
@@ -92,14 +68,14 @@ const FeaturesSection = () => {
           {features.map((feature) => (
             <div 
               key={feature.id}
-              className="feature-card group hover:border-primary/20"
-              onClick={() => handleNavigation(feature.link, feature.isPage)}
+              className="feature-card group hover:border-primary/20 cursor-pointer"
+              onClick={() => navigate(feature.link)}
               tabIndex={0}
               role="button"
-              aria-label={`Go to ${feature.name} section`}
+              aria-label={`Go to ${feature.name} page`}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
-                  handleNavigation(feature.link, feature.isPage);
+                  navigate(feature.link);
                 }
               }}
             >

@@ -9,6 +9,8 @@ import NotFound from "./pages/NotFound";
 import ScoreAssessment from "./pages/ScoreAssessment";
 import Emergency from "./pages/Emergency";
 import Reminders from "./pages/Reminders";
+import DiaryPage from "./pages/DiaryPage";
+import TriggersPage from "./pages/TriggersPage";
 import "./lib/firebase"; // Import firebase initialization
 
 const queryClient = new QueryClient();
@@ -21,10 +23,11 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/score" element={<ScoreAssessment />} />
+          <Route path="/diary" element={<DiaryPage />} />
+          <Route path="/triggers" element={<TriggersPage />} />
           <Route path="/emergency" element={<Emergency />} />
+          <Route path="/score" element={<ScoreAssessment />} />
           <Route path="/reminders" element={<Reminders />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
