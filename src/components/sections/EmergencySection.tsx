@@ -1,13 +1,50 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Phone, MapPin, AlertTriangle } from 'lucide-react';
+import { Phone, MapPin, AlertTriangle, Ambulance } from 'lucide-react';
 
 const EmergencySection = () => {
+  const handleFindHospital = () => {
+    // Open Google Maps search for nearby hospitals
+    window.open('https://www.google.com/maps/search/hospitals+near+me', '_blank');
+  };
+
   return (
     <section id="emergency" className="py-16 md:py-24 bg-white">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        {/* Emergency Alert Header */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center bg-red-100 rounded-full px-4 py-1 mb-6">
+            <AlertTriangle className="w-4 h-4 text-red-600 mr-2" />
+            <span className="text-red-600 font-medium">Emergency Access</span>
+          </div>
+        </div>
+
+        {/* Emergency Action Buttons */}
+        <div className="flex flex-col gap-4 items-center justify-center mb-12">
+          <a 
+            href="tel:+919944226180" 
+            className="w-full max-w-md"
+          >
+            <Button 
+              className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-4 text-lg"
+              size="lg"
+            >
+              <Phone className="w-6 h-6 mr-2" />
+              Call Emergency Services
+            </Button>
+          </a>
+
+          <Button 
+            onClick={handleFindHospital}
+            className="w-full max-w-md bg-red-500 hover:bg-red-600 text-white font-bold py-4 text-lg"
+            size="lg"
+          >
+            <Ambulance className="w-6 h-6 mr-2" />
+            Find Nearby Hospital
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
           <div>
             <div className="inline-flex items-center justify-center bg-red-100 rounded-full px-4 py-1 mb-6">
               <AlertTriangle className="w-4 h-4 text-red-600 mr-2" />
