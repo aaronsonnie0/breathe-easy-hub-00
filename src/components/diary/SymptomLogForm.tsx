@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Calendar } from "lucide-react";
 import { format } from "date-fns";
+import { useAuth } from '@/hooks/use-auth';
 
 import { Button } from "@/components/ui/button";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
@@ -46,6 +47,7 @@ interface SymptomLogFormProps {
 
 export default function SymptomLogForm({ onSuccess, simulateOnly = false }: SymptomLogFormProps) {
   const { toast } = useToast();
+  const { user } = useAuth();
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -62,40 +64,48 @@ export default function SymptomLogForm({ onSuccess, simulateOnly = false }: Symp
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    if (simulateOnly) {
+    if (!user && !simulateOnly) {
       toast({
-        title: "Success!",
-        description: "Your symptoms have been logged (demo mode).",
+        title: "Error",
+        description: "Please sign in to log symptoms.",
+        variant: "destructive",
       });
-      
-      form.reset();
-      
-      if (onSuccess) {
-        onSuccess();
-      }
       return;
     }
 
     try {
-      const symptomData = {
-        date: values.date,
-        nighttimeAwakenings: values.nighttimeAwakenings,
-        inhalerUse: values.inhalerUse,
-        stressLevel: values.stressLevel,
-        triggers: values.triggers.split(',').map(t => t.trim()).filter(Boolean),
-        hoursOfSleep: values.hoursOfSleep,
-        activityImpact: values.activityImpact,
-        peakFlow: values.peakFlow,
-      };
-      
-      await addSymptomLog(symptomData);
+      if (!simulateOnly) {
+        const symptomData = {
+          date: values.date,
+          nighttimeAwakenings: values.nighttimeAwakenings,
+          inhalerUse: values.inhalerUse,
+          stressLevel: values.stressLevel,
+          triggers: values.triggers.split(',').map(t => t.trim()).filter(Boolean),
+          hoursOfSleep: values.hoursOfSleep,
+          activityImpact: values.activityImpact,
+          peakFlow: values.peakFlow,
+          userId: user?.uid,
+        };
+        
+        await addSymptomLog(symptomData);
+      }
       
       toast({
         title: "Success!",
-        description: "Your symptoms have been logged successfully.",
+        description: simulateOnly ? "Your symptoms have been logged (demo mode)." : "Your symptoms have been logged successfully.",
       });
       
-      form.reset();
+      // Reset form and trigger success callback
+      form.reset({
+        date: new Date(),
+        nighttimeAwakenings: 0,
+        inhalerUse: 0,
+        stressLevel: 1,
+        triggers: '',
+        hoursOfSleep: 8,
+        activityImpact: 1,
+        peakFlow: 0,
+      });
       
       if (onSuccess) {
         onSuccess();
@@ -268,7 +278,7 @@ export default function SymptomLogForm({ onSuccess, simulateOnly = false }: Symp
                 name="peakFlow"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Peak Flow (L/min)</FormLabel>
+                    <FormLabel>Peak Flow</FormLabel>
                     <FormControl>
                       <Input 
                         type="number" 
@@ -283,8 +293,8 @@ export default function SymptomLogForm({ onSuccess, simulateOnly = false }: Symp
               />
             </div>
 
-            <Button type="submit" className="w-full transition-all duration-300 hover:scale-[1.02]">
-              Log Symptoms
+            <Button type="submit" className="w-full mt-6">
+              Submit
             </Button>
           </form>
         </Form>
