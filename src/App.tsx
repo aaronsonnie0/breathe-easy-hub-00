@@ -11,7 +11,8 @@ import Emergency from "./pages/Emergency";
 import Reminders from "./pages/Reminders";
 import DiaryPage from "./pages/DiaryPage";
 import TriggersPage from "./pages/TriggersPage";
-import "./lib/firebase"; // Import firebase initialization
+import ChatbotPage from "./pages/ChatbotPage";
+import "./lib/firebase";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/emergency" element={<Emergency />} />
           <Route path="/score" element={<ScoreAssessment />} />
           <Route path="/reminders" element={<Reminders />} />
+          <Route path="/chat" element={<ChatbotPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
