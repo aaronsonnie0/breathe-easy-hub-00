@@ -1,6 +1,6 @@
-
 import React from 'react';
 import ScrollReveal from '@/components/utils/ScrollReveal';
+import AQIWidget from '@/components/widgets/AQIWidget';
 
 const triggers = [
   {
@@ -98,33 +98,15 @@ const TriggersSection = () => {
               <div className="md:w-1/2 md:pr-8 mb-6 md:mb-0">
                 <h3 className="text-2xl font-bold mb-4 text-gray-800">Air Quality Index</h3>
                 <p className="text-gray-600 mb-4">
-                  Air quality can significantly impact your asthma symptoms. Stay informed about the air quality in your area with live data from trusted sources.
+                  Air quality can significantly impact your asthma symptoms. Stay informed about your environment using this simulated widget.
                 </p>
                 <p className="text-sm text-gray-500">
-                  This widget provides real-time AQI (Air Quality Index) data. Green indicates good air quality, while yellow, orange, and red indicate progressively worse conditions.
+                  Get real-time air quality data for your location with just one click.
                 </p>
               </div>
               
               <div className="md:w-1/2">
-                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 h-64 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="text-gray-400 mb-2">Air Quality Widget</div>
-                    <p className="text-sm text-gray-500">
-                      Live air quality data would be embedded here from services like IQAir or AirVisual.
-                    </p>
-                    <div className="mt-4 flex justify-center space-x-2">
-                      <div className="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white text-xs">0-50</div>
-                      <div className="w-8 h-8 rounded-full bg-yellow-400 flex items-center justify-center text-white text-xs">51-100</div>
-                      <div className="w-8 h-8 rounded-full bg-orange-500 flex items-center justify-center text-white text-xs">101-150</div>
-                      <div className="w-8 h-8 rounded-full bg-red-500 flex items-center justify-center text-white text-xs">150+</div>
-                    </div>
-                    <div className="mt-4">
-                      <button className="text-primary-dark hover:underline text-sm">
-                        Connect to Air Quality API
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <AQIWidget />
               </div>
             </div>
           </div>
