@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback } from 'react';
 import SymptomLogForm from '@/components/diary/SymptomLogForm';
 import SymptomChart from '@/components/diary/SymptomChart';
@@ -7,10 +8,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 export default function DiarySection() {
   const [timeframe, setTimeframe] = useState<'weekly' | 'monthly'>('weekly');
   const [refreshKey, setRefreshKey] = useState(0);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const { user, loading } = useAuth();
 
   const handleFormSuccess = useCallback(() => {
-    // Increment refreshKey to trigger chart refresh
+    setHasSubmitted(true);
     setRefreshKey(prev => prev + 1);
   }, []);
 
@@ -53,14 +55,16 @@ export default function DiarySection() {
             />
           </div>
           
-          <div className="lg:sticky lg:top-24">
-            <SymptomChart
-              key={refreshKey}
-              timeframe={timeframe}
-              onTimeframeChange={setTimeframe}
-              simulateOnly={!user}
-            />
-          </div>
+          {(hasSubmitted || (!user && refreshKey > 0)) && (
+            <div className="lg:sticky lg:top-24">
+              <SymptomChart
+                key={refreshKey}
+                timeframe={timeframe}
+                onTimeframeChange={setTimeframe}
+                simulateOnly={!user}
+              />
+            </div>
+          )}
         </div>
       </div>
     </section>
