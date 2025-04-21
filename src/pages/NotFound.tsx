@@ -3,15 +3,13 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Home, ArrowLeft } from 'lucide-react';
+import BackButton from '@/components/layout/BackButton';
 
 const NotFound = () => {
-  // Ensure page starts at the top on load
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
+  useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 px-4 py-16">
+      <BackButton />
       <div className="text-6xl font-bold text-primary mb-4">404</div>
       <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">
         Oops! Page Not Found
@@ -36,5 +34,4 @@ const NotFound = () => {
     </div>
   );
 };
-
 export default NotFound;

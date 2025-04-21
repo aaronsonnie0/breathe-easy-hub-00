@@ -4,17 +4,14 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import EmergencySection from '@/components/sections/EmergencySection';
 import ScrollReveal from '@/components/utils/ScrollReveal';
+import BackButton from '@/components/layout/BackButton';
 
 const Emergency = () => {
-  // Ensure page starts at the top on initial load
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
+  useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
     <div className="bg-tertiary-light min-h-screen animate-fade-in-slow">
+      <BackButton />
       <Navbar />
-
       <main className="pt-24 pb-16">
         <div className="container mx-auto px-4 md:px-6">
           <ScrollReveal>
@@ -28,15 +25,12 @@ const Emergency = () => {
             </div>
           </ScrollReveal>
         </div>
-        
         <ScrollReveal threshold={0.1} rootMargin="0px 0px -100px 0px">
           <EmergencySection />
         </ScrollReveal>
       </main>
-
       <Footer />
     </div>
   );
 };
-
 export default Emergency;

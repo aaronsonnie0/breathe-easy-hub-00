@@ -4,15 +4,13 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import ScoreSection from '@/components/sections/ScoreSection';
 import ScrollReveal from '@/components/utils/ScrollReveal';
+import BackButton from '@/components/layout/BackButton';
 
 const ScoreAssessment = () => {
-  // Ensure page starts at the top on initial load
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
+  useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
     <div className="bg-tertiary-light min-h-screen animate-fade-in-slow">
+      <BackButton />
       <Navbar />
       <main className="pt-24 pb-16">
         <ScrollReveal>
@@ -25,7 +23,6 @@ const ScoreAssessment = () => {
             </p>
           </div>
         </ScrollReveal>
-        
         <ScrollReveal threshold={0.1} rootMargin="0px 0px -100px 0px">
           <ScoreSection />
         </ScrollReveal>
@@ -34,5 +31,4 @@ const ScoreAssessment = () => {
     </div>
   );
 };
-
 export default ScoreAssessment;
