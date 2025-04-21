@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
 
 const BackButton = () => {
   const navigate = useNavigate();
@@ -21,25 +21,27 @@ const BackButton = () => {
   if (location.pathname === "/") return null;
 
   return (
-    <div
-      className="fixed top-4 left-4 z-50 animate-fade-in"
+    <div 
+      className="fixed top-4 left-4 z-[100] animate-fade-in"
       style={{ animation: "fade-in 0.3s ease-out" }}
     >
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <button
-            aria-label="Back to Home"
-            onClick={handleBack}
-            className="bg-white border border-gray-200 shadow-sm rounded-full p-2 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary"
-            tabIndex={0}
-          >
-            <ArrowLeft className="w-6 h-6 text-gray-700" />
-          </button>
-        </TooltipTrigger>
-        <TooltipContent side="right">
-          Back to Home
-        </TooltipContent>
-      </Tooltip>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button
+              aria-label="Back to Home"
+              onClick={handleBack}
+              className="bg-white border border-gray-200 shadow-md rounded-full p-2 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-primary"
+              tabIndex={0}
+            >
+              <ArrowLeft className="w-6 h-6 text-gray-700" />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent side="right">
+            Back to Home
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
   );
 };

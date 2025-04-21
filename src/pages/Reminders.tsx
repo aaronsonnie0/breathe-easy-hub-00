@@ -9,7 +9,7 @@ import BackButton from '@/components/layout/BackButton';
 const Reminders = () => {
   useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
-    <div className="bg-tertiary-light min-h-screen animate-fade-in-slow">
+    <div className="bg-tertiary-light min-h-screen animate-fade-in-slow relative">
       <BackButton />
       <Navbar />
       <main className="pt-24 pb-16">
