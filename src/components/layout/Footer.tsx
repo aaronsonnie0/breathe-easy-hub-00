@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Mail, Phone, MapPin, Heart, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 
@@ -57,11 +56,11 @@ const Footer = () => {
             <h3 className="text-xl font-bold mb-4 text-gray-800">Resources</h3>
             <ul className="space-y-2">
               {[
-                { name: 'Asthma Guide', href: '#' },
-                { name: 'Medical Research', href: '#' },
-                { name: 'FAQs', href: '#' },
-                { name: 'Support', href: '#' },
-                { name: 'Privacy Policy', href: '#' },
+                { name: 'Asthma Guide', href: '/guide' },
+                { name: 'Medical Research', href: '/research' },
+                { name: 'FAQs', href: '/faqs' },
+                { name: 'Support', href: '/support' },
+                { name: 'Privacy Policy', href: '/privacy' },
               ].map((link) => (
                 <li key={link.name}>
                   <a 
